@@ -1,5 +1,4 @@
 // Genre.cpp
-// Genre.cpp
 #include "Genre.h"
 #include <string>
 

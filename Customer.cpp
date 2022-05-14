@@ -2,103 +2,103 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-#include "Customer.h"
+#include <iomanip>
+#include <ctime>
 #include "Receipt.h"
-#include "Util.h"
+#include "Customer.h"
 
 using std::ostringstream;
 using std::vector;
 
-inline Customer::Customer() {}
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+	size_t start_pos = 0;
+	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+		str.replace(start_pos, from.length(), to);
+		start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+	}
+	return str;
+}
 
-inline Customer::Customer(const std::string& name, int age) : customer_name(name), age(age) {}
+std::string wtime(const time_t& t) {
+	std::tm tm;
+	localtime_s(&tm, &t);
+	std::wstringstream wss;
+	wss << std::put_time(&tm, L"%F %T");
+	return std::string(wss.str().begin(), wss.str().end());
+}
+
+std::string fill_receipt_line(Customer customer, std::vector<Rental> customer_rental_list, std::string line) {
+	std::string base_str = line;
+	ReplaceAll(base_str, "{customer_name}", customer.getName());
+	ReplaceAll(base_str, "{customer_rent_count}", std::to_string(customer_rental_list.size()));
+	ReplaceAll(base_str, "{customer_age}", std::to_string(customer.get_age()));
+
+	std::vector< Rental >::iterator iter = customer_rental_list.begin();
+	std::vector< Rental >::iterator iter_end = customer_rental_list.end();
+
+	int earn_point = 0;
+	int whole_fee = 0;
+	for (; iter != iter_end; ++iter) {
+		Rental temp = *iter;
+		earn_point += temp.get_point();
+		whole_fee += temp.get_fee();
+	}
+
+	ReplaceAll(base_str, "{customer_earn_point}", std::to_string(earn_point));
+	ReplaceAll(base_str, "{customer_point}", std::to_string(customer.get_point() - earn_point));
+	ReplaceAll(base_str, "{movie_rent_whole_fee}", std::to_string(whole_fee));
+
+	return base_str;
+}
+
+std::string fill_receipt_line_by_rental(Rental rental, std::string line) {
+	std::string base_str = line;
+	ReplaceAll(base_str, "{movie_title}", rental.getMovie().get_movie_title());
+	ReplaceAll(base_str, "{movie_genre}", rental.getMovie().get_genre_name());
+	ReplaceAll(base_str, "{movie_rent_start}", wtime(rental.get_rent_time()));
+	ReplaceAll(base_str, "{movie_rent_term}", std::to_string(rental.getDaysRented()));
+	ReplaceAll(base_str, "{movie_rent_fee}", std::to_string(rental.get_fee()));
+
+	return base_str;
+}
+
+Customer::Customer() :customer_name(""), point(0), age(0) {}
+
+Customer::Customer(const std::string& name, int age) : customer_name(name), point(0), age(age) {}
 
 void Customer::add_point(int input_point) { point += input_point; }
 
 int Customer::get_point() const { return point; };
 
-inline void Customer::addRental(const Rental& arg) { customer_rental_list.push_back(arg); add_point(arg.get_point()); }
+void Customer::addRental(const Rental& arg) { customer_rental_list.push_back(arg); add_point(arg.get_point()); }
 
-inline std::string Customer::getName() const { return customer_name; }
+std::string Customer::getName() const { return customer_name; }
 
-inline int Customer::get_age() const { return age; }
-
-std::string Customer::get_receipt()
-{
-	double totalAmount = 0.;
-	int frequentRenterPoints = 0;
-
-	std::vector< Rental >::iterator iter = customer_rental_list.begin();
-	std::vector< Rental >::iterator iter_end = customer_rental_list.end();
-
-	// result will be returned by statement()
-	std::ostringstream result;
-	result << "Rental Record for " << getName() << "\n";
-
-	// Loop over customer's rentals
-	for (; iter != iter_end; ++iter) {
-
-		double thisAmount = 0.;
-		Rental each = *iter;
-
-		int get_days_rented = each.getDaysRented();
-
-		thisAmount += each.getMovie().get_default_fee();
-		if (get_days_rented > 2)
-			thisAmount += (((double)get_days_rented - 2) * each.getMovie().get_additional_fee());
-
-		frequentRenterPoints += get_days_rented > 1 ? 2 : 1;
-
-		// Show figures for this rental
-		result << "\t" << each.getMovie().getTitle() << "\t"
-			<< thisAmount << std::endl;
-		totalAmount += thisAmount;
-	}
-
-	// Add footer lines
-	result << "Amount owed is " << totalAmount << "\n";
-	result << "You earned " << frequentRenterPoints
-		<< " frequent renter points";
-
-	return result.str();
-}
+int Customer::get_age() const { return age; }
 
 std::string Customer::get_receipt(Receipt skeleton)
 {
 	double totalAmount = 0.;
 	int frequentRenterPoints = 0;
+	std::ostringstream result;
 
 	std::vector< Rental >::iterator iter = customer_rental_list.begin();
 	std::vector< Rental >::iterator iter_end = customer_rental_list.end();
 
-	// result will be returned by statement()
-	std::ostringstream result;
-	result << "Rental Record for " << getName() << "\n";
-
-	// Loop over customer's rentals
-	for (; iter != iter_end; ++iter) {
-
-		double thisAmount = 0.;
-		Rental each = *iter;
-
-		int get_days_rented = each.getDaysRented();
-
-		thisAmount += each.getMovie().get_default_fee();
-		if (get_days_rented > 2)
-			thisAmount += (((double)get_days_rented - 2) * each.getMovie().get_additional_fee());
-
-		frequentRenterPoints += get_days_rented > 1 ? 2 : 1;
-
-		// Show figures for this rental
-		result << "\t" << each.getMovie().getTitle() << "\t"
-			<< thisAmount << std::endl;
-		totalAmount += thisAmount;
+	std::vector<std::string> receipt_list = skeleton.get_receipt_origin();
+	for (int i = 0; i < receipt_list.size(); i++) {
+		std::string line = receipt_list[i];
+		if (line[0] != '$')
+		{
+			result << fill_receipt_line(*this, this->customer_rental_list, line) << std::endl;
+		}
+		else {
+			for (; iter != iter_end; ++iter) {
+				result << fill_receipt_line_by_rental(*iter, line) << std::endl;
+			}
+		}
 	}
-
-	// Add footer lines
-	result << "Amount owed is " << totalAmount << "\n";
-	result << "You earned " << frequentRenterPoints
-		<< " frequent renter points";
-
 	return result.str();
 }
+
+

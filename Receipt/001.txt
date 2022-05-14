@@ -1,0 +1,10 @@
+{customer_name}({customer_age})
+총 대여 건수 : {customer_rent_count}
+
+-----------------------------------
+${movie_title} {movie_genre} {movie_rent_start} {movie_rent_term} {movie_rent_fee}
+-----------------------------------
+
+총 대여 금액 : {movie_rent_whole_fee}
+적립 포인트 : {customer_earn_point}
+최종 포인트 : {customer_point}

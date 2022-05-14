@@ -1,19 +1,27 @@
 // Customer.cpp
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "Customer.h"
+#include "Receipt.h"
+#include "Util.h"
 
 using std::ostringstream;
 using std::vector;
 
-
 inline Customer::Customer() {}
 
-inline Customer::Customer(const std::string& name) : customer_name(name) {}
+inline Customer::Customer(const std::string& name, int age) : customer_name(name), age(age) {}
 
-inline void Customer::addRental(const Rental& arg) { customer_rental_list.push_back(arg); }
+void Customer::add_point(int input_point) { point += input_point; }
+
+int Customer::get_point() const { return point; };
+
+inline void Customer::addRental(const Rental& arg) { customer_rental_list.push_back(arg); add_point(arg.get_point()); }
 
 inline std::string Customer::getName() const { return customer_name; }
+
+inline int Customer::get_age() const { return age; }
 
 std::string Customer::get_receipt()
 {

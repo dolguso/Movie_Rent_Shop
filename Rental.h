@@ -1,6 +1,5 @@
 // Rental.hh
-#ifndef RENTAL_H
-#define RENTAL_H
+#pragma once
 #include "Movie.h"
 
 class Rental {
@@ -17,5 +16,5 @@ private:
 	int nDaysRented;
 	int point;
 	int fee;
+	time_t rent_time;
 };
-#endif // RENTAL_H

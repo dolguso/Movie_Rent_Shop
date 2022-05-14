@@ -1,6 +1,5 @@
 // Movie.hh
-#ifndef MOVIE_H
-#define MOVIE_H
+#pragma once
 #include <string>
 #include "Genre.h"
 
@@ -12,5 +11,3 @@ public:
 	std::string getTitle() const;
 	void setTitle(std::string input_title);
 };
-
-#endif // MOVIE_HH

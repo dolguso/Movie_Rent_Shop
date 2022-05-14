@@ -1,11 +1,10 @@
 // Customer.hh
 // Customer.hh
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
-
+#pragma once
 #include <string>
 #include <vector>
 #include "Rental.h"
+#include "Receipt.h"
 
 // The customer class represents the customer of the store
 

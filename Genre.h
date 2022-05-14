@@ -1,8 +1,5 @@
 #pragma once
-#ifndef GENRE_H
-#define GENRE_H
 #include <string>
-
 
 class Genre {
 private:
@@ -16,8 +13,8 @@ private:
 public:
 	Genre(std::string genre_name, double default_fee, double additional_fee, int default_day_for_fee, int default_point, int additional_point, int default_day_for_point);
 
-	std::string get_name() const;
-	void set_name(std::string input_name);
+	std::string get_genre_name() const;
+	void set_genre_name(std::string input_genre_name);
 
 	double get_default_fee() const;
 	void set_default_fee(double new_default_fee);
@@ -37,5 +34,3 @@ public:
 	int get_default_day_for_point() const;
 	void set_default_day_for_point(int new_default_day_for_point);
 };
-
-#endif // MOVIE_HH

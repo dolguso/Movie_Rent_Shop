@@ -10,29 +10,17 @@
 
 class Customer {
 public:
-  Customer();
-  explicit Customer( const std::string& name );
+	Customer();
+	explicit Customer(const std::string& name);
 
-  void addRental( const Rental& arg );
-  std::string getName() const;
+	void addRental(const Rental& arg);
+	std::string getName() const;
 
-  // Generate a statement for the customer
-  std::string statement();
+	// Generate a statement for the customer
+	std::string get_receipt();
 
 private:
-  std::string customerName;
-  std::vector< Rental > customerRentals;
-
+	std::string customer_name;
+	std::vector< Rental > customer_rental_list;
 };
-
-
-inline Customer::Customer() {}
-
-inline Customer::Customer( const std::string& name ): 
-  customerName( name ) {}
-
-inline void Customer::addRental( const Rental& arg ) { customerRentals.push_back( arg ); }
-
-inline std::string Customer::getName() const { return customerName; }
-
 #endif // CUSTOMER_HH

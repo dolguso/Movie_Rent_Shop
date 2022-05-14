@@ -1,4 +1,4 @@
-// Customer.cc
+// Customer.cpp
 #include <sstream>
 #include <vector>
 #include "Customer.h"
@@ -6,61 +6,91 @@
 using std::ostringstream;
 using std::vector;
 
-std::string Customer::statement()
+
+inline Customer::Customer() {}
+
+inline Customer::Customer(const std::string& name) : customer_name(name) {}
+
+inline void Customer::addRental(const Rental& arg) { customer_rental_list.push_back(arg); }
+
+inline std::string Customer::getName() const { return customer_name; }
+
+std::string Customer::get_receipt()
 {
-  double totalAmount = 0.;
-  int frequentRenterPoints = 0;
+	double totalAmount = 0.;
+	int frequentRenterPoints = 0;
 
-  std::vector< Rental >::iterator iter = customerRentals.begin();
-  std::vector< Rental >::iterator iter_end = customerRentals.end();
+	std::vector< Rental >::iterator iter = customer_rental_list.begin();
+	std::vector< Rental >::iterator iter_end = customer_rental_list.end();
 
-  // result will be returned by statement()
-  std::ostringstream result;
-  result << "Rental Record for " << getName() << "\n";
+	// result will be returned by statement()
+	std::ostringstream result;
+	result << "Rental Record for " << getName() << "\n";
 
-  // Loop over customer's rentals
-  for ( ; iter != iter_end; ++iter ) {
+	// Loop over customer's rentals
+	for (; iter != iter_end; ++iter) {
 
-    double thisAmount = 0.;
-    Rental each = *iter;
+		double thisAmount = 0.;
+		Rental each = *iter;
 
-    // Determine amounts for each rental
-    switch ( each.getMovie().getPriceCode() ) {
+		int get_days_rented = each.getDaysRented();
 
-      case Movie::REGULAR:
-        thisAmount += 2.;
-        if ( each.getDaysRented() > 2 )
-          thisAmount += ( each.getDaysRented() - 2 ) * 1.5 ;
-        break;
+		thisAmount += each.getMovie().get_default_fee();
+		if (get_days_rented > 2)
+			thisAmount += (((double)get_days_rented - 2) * each.getMovie().get_additional_fee());
 
-      case Movie::NEW_RELEASE:
-        thisAmount += each.getDaysRented() * 3;
-        break;
+		frequentRenterPoints += get_days_rented > 1 ? 2 : 1;
 
-      case Movie::CHILDRENS:
-        thisAmount += 1.5;
-        if ( each.getDaysRented() > 3 )
-          thisAmount += ( each.getDaysRented() - 3 ) * 1.5;
-        break;
-    }
+		// Show figures for this rental
+		result << "\t" << each.getMovie().getTitle() << "\t"
+			<< thisAmount << std::endl;
+		totalAmount += thisAmount;
+	}
 
-    // Add frequent renter points
-    frequentRenterPoints++;
+	// Add footer lines
+	result << "Amount owed is " << totalAmount << "\n";
+	result << "You earned " << frequentRenterPoints
+		<< " frequent renter points";
 
-    // Add bonus for a two day new release rental
-    if ( ( each.getMovie().getPriceCode() == Movie::NEW_RELEASE )
-         && each.getDaysRented() > 1 ) frequentRenterPoints++;
+	return result.str();
+}
 
-    // Show figures for this rental
-    result << "\t" << each.getMovie().getTitle() << "\t"
-           << thisAmount << std::endl;
-    totalAmount += thisAmount;
-  }
+std::string Customer::get_receipt(Receipt skeleton)
+{
+	double totalAmount = 0.;
+	int frequentRenterPoints = 0;
 
-  // Add footer lines
-  result << "Amount owed is " << totalAmount << "\n";
-  result << "You earned " << frequentRenterPoints
-         << " frequent renter points";
+	std::vector< Rental >::iterator iter = customer_rental_list.begin();
+	std::vector< Rental >::iterator iter_end = customer_rental_list.end();
 
-  return result.str();
+	// result will be returned by statement()
+	std::ostringstream result;
+	result << "Rental Record for " << getName() << "\n";
+
+	// Loop over customer's rentals
+	for (; iter != iter_end; ++iter) {
+
+		double thisAmount = 0.;
+		Rental each = *iter;
+
+		int get_days_rented = each.getDaysRented();
+
+		thisAmount += each.getMovie().get_default_fee();
+		if (get_days_rented > 2)
+			thisAmount += (((double)get_days_rented - 2) * each.getMovie().get_additional_fee());
+
+		frequentRenterPoints += get_days_rented > 1 ? 2 : 1;
+
+		// Show figures for this rental
+		result << "\t" << each.getMovie().getTitle() << "\t"
+			<< thisAmount << std::endl;
+		totalAmount += thisAmount;
+	}
+
+	// Add footer lines
+	result << "Amount owed is " << totalAmount << "\n";
+	result << "You earned " << frequentRenterPoints
+		<< " frequent renter points";
+
+	return result.str();
 }

@@ -5,9 +5,9 @@
 
 class Movie : public Genre {
 private:
-	std::string movieTitle;
+	std::string movie_title;
 public:
 	Movie(const std::string& title, Genre genre);
-	std::string getTitle() const;
-	void setTitle(std::string input_title);
+	std::string get_movie_title() const;
+	void set_movie_title(std::string input_title);
 };

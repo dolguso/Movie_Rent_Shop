@@ -10,7 +10,6 @@
 	- {movie_title} : 영화제목
 	- {movie_genre} : 영화장르
 	- {movie_rent_start} : 대여일자
-	- {movie_rent_end} : 반납일자
 	- {movie_rent_term} : 대여기간
 	- {movie_rent_fee} : 대여 별 금액
 	- {movie_rent_whole_fee} : 총 대여 금액

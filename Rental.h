@@ -10,10 +10,12 @@ public:
 	int getDaysRented() const;
 	const Movie& getMovie() const;
 	int get_point() const;
+	int get_fee() const;
 
 private:
 	Movie rentedMovie;
 	int nDaysRented;
 	int point;
+	int fee;
 };
 #endif // RENTAL_H

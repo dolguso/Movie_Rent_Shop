@@ -1,34 +1,13 @@
 // Movie.hh
-#ifndef MOVIE_H
-#define MOVIE_H
+#pragma once
 #include <string>
+#include "Genre.h"
 
-class Movie {
-public:
-  static const int CHILDRENS   = 2;
-  static const int REGULAR     = 0;
-  static const int NEW_RELEASE = 1;
-
-  Movie( const std::string& title, int priceCode = REGULAR );
-
-  int getPriceCode() const;
-  void setPriceCode( int arg );
-  std::string getTitle() const;
-
+class Movie : public Genre {
 private:
-  std::string movieTitle;
-  int moviePriceCode;
+	std::string movie_title;
+public:
+	Movie(const std::string& title, Genre genre);
+	std::string get_movie_title() const;
+	void set_movie_title(std::string input_title);
 };
-
-inline Movie::Movie( const std::string& title, int priceCode ): 
-  movieTitle( title ),
-  moviePriceCode( priceCode )
-{}
-
-inline int Movie::getPriceCode() const { return moviePriceCode; }
-
-inline void Movie::setPriceCode( int arg ) { moviePriceCode = arg; }
-
-inline std::string Movie::getTitle() const { return movieTitle; }
-
-#endif // MOVIE_H

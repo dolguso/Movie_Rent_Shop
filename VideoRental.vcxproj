@@ -152,7 +152,6 @@
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Receipt.cpp" />
     <ClCompile Include="Rental.cpp" />
-    <ClCompile Include="Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Customer.h" />

@@ -30,9 +30,6 @@
     <ClCompile Include="Receipt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Rental.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

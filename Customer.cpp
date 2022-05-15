@@ -61,6 +61,7 @@ std::string fill_receipt_line_by_rental(Rental rental, std::string line) {
 	base_str = ReplaceAll(base_str, "{movie_rent_start}", wtime(rental.get_rent_time()));
 	base_str = ReplaceAll(base_str, "{movie_rent_term}", std::to_string(rental.getDaysRented()));
 	base_str = ReplaceAll(base_str, "{movie_rent_fee}", std::to_string(rental.get_fee()));
+	base_str = ReplaceAll(base_str, "{movie_rent_point}", std::to_string(rental.get_point()));
 
 	return base_str;
 }

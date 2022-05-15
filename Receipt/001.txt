@@ -1,9 +1,9 @@
 {customer_name} ({customer_age}세)
 총 대여 건수 : {customer_rent_count} 건
 
-제목 / 장르 / 대여일 / 대여기간 / 대여료
+제목 / 장르 / 대여일 / 대여기간 / 대여료 / 포인트
 -----------------------------------
-${movie_title} / {movie_genre} / {movie_rent_start} / {movie_rent_term}일 / {movie_rent_fee}원
+${movie_title} / {movie_genre} / {movie_rent_start} / {movie_rent_term}일 / {movie_rent_fee}원 / {movie_rent_point} point
 -----------------------------------
 
 총 대여 금액 : {movie_rent_whole_fee} 원

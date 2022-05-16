@@ -54,4 +54,7 @@
   <ItemGroup>
     <None Include="Receipt\ReadMe.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Receipt\001.txt" />
+  </ItemGroup>
 </Project>

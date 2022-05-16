@@ -1,17 +1,27 @@
 // Receipt.cpp
 #include "Receipt.h"
-#include <string>>
+
 #include <fstream>
+#include <string>>
 
-Receipt::Receipt() {}
+Receipt::Receipt() : receipt_origin() {}
+Receipt::Receipt(std::string path) : receipt_origin()
+{
+    std::ifstream file(path);
+    std::string str;
+    while (std::getline(file, str))
+    {
+        receipt_origin.push_back(str);
+    }
+};
 
-void Receipt::set_receipt_origin(std::string path) {
-	std::ifstream file(path);
-	std::string str;
-	while (std::getline(file, str))
-	{
-		receipt_origin.push_back(str);
-	}
+Receipt::~Receipt()
+{
+    receipt_origin.clear();
+    receipt_origin.~vector();
 }
 
-std::vector<std::string> Receipt::get_receipt_origin() { return receipt_origin; }
+std::vector<std::string> Receipt::getReceiptOrigin()
+{
+    return receipt_origin;
+}

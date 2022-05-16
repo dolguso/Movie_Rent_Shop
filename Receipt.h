@@ -2,11 +2,14 @@
 #include <string>
 #include <vector>
 
-class Receipt {
+class Receipt
+{
 private:
-	std::vector<std::string> receipt_origin;
+    std::vector<std::string> receipt_origin;
+
 public:
-	Receipt();
-	void set_receipt_origin(std::string path);
-	std::vector<std::string> get_receipt_origin();
+    Receipt();
+    Receipt(std::string path);
+    ~Receipt();
+    std::vector<std::string> getReceiptOrigin();
 };

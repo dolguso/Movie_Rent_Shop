@@ -9,15 +9,15 @@ public:
 
 	int getDaysRented() const;
 	const Movie& getMovie() const;
-	int get_point() const;
-	int get_fee() const;
-	time_t get_rent_time() const;
-	void set_rent_time(time_t input_rent_time);
+	int getPoint() const;
+	int getFee() const;
+	time_t getRentTime() const;
+	void setRentTime(time_t input_rent_time);
 
 private:
-	Movie rentedMovie;
-	int nDaysRented;
-	int point;
-	int fee;
+	Movie rented_movie;
+	int rental_date;
+	int rental_point;
+	int rental_fee;
 	time_t rent_time;
 };

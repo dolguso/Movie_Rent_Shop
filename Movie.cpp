@@ -1,8 +1,13 @@
 // Movie.cpp
 #include "Movie.h"
 
-Movie::Movie(const std::string& title, Genre genre) :movie_title(title), Genre(genre) {}
+Movie::Movie() : movie_title(""), Genre(){};
 
-std::string Movie::get_movie_title() const { return movie_title; }
+Movie::Movie(const std::string& title, Genre& genre) : movie_title(title), Genre(genre) {}
 
-void Movie::set_movie_title(std::string input_title) { movie_title = input_title; }
+Movie::~Movie(){};
+
+std::string Movie::getMovieTitle() const
+{
+    return movie_title;
+}

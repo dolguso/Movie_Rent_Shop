@@ -12,21 +12,22 @@ class Customer {
 public:
 	Customer();
 	explicit Customer(const std::string& name, int age);
+    ~Customer();
 
 	void addRental(const Rental& arg);
 	std::string getName() const;
 
 	// Generate a statement for the customer
-	std::string get_receipt(Receipt skeleton);
+	std::string getReceipt(Receipt& skeleton);
 
-	void add_point(int input_point);
-	int get_point() const;
+	void addPoint(int input_point);
+	int getPoint() const;
 
-	int get_age() const;
+	int getAge() const;
 
 private:
 	std::string customer_name = "";
 	std::vector< Rental > customer_rental_list;
-	int point = 0;
-	int age = 0;
+	int customer_point = 0;
+	int customer_age = 0;
 };

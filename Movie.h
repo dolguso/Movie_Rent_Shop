@@ -4,14 +4,14 @@
 
 #include <string>
 
-class Movie : public Genre
+class Movie
 {
 private:
-    std::string movie_title;
-
+	std::string movie_title;
+	Genre movie_genre;
 public:
-    Movie();
-    Movie(const std::string& title, Genre& genre);
-    ~Movie();
-    std::string getMovieTitle() const;
+	Movie();
+	Movie(const std::string& title, Genre& genre);
+	~Movie();
+	std::string getMovieTitle() const;
 };

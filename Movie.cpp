@@ -1,9 +1,9 @@
 // Movie.cpp
 #include "Movie.h"
 
-Movie::Movie() : movie_title(""), Genre(){};
+Movie::Movie() : movie_title(""), movie_genre(){};
 
-Movie::Movie(const std::string& title, Genre& genre) : movie_title(title), Genre(genre) {}
+Movie::Movie(const std::string& title, Genre& genre) : movie_title(title), movie_genre(genre) {}
 
 Movie::~Movie(){};
 
